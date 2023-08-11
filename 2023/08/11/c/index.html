@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="Hexo Theme Keep">
+    <meta name="author" content="braaain">
+    
+    <title>
+        
+            SQL注入 |
+        
+        freedom!
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <link rel="shortcut icon" href="/images/2.jpg">
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    <script id="hexo-configurations">
+    let KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"en","path":"search.json"}
+    KEEP.theme_config = {"toc":{"enable":false,"number":false,"expand_all":false,"init_open":false},"style":{"primary_color":"#0066cc","logo":"/images/2.jpg","favicon":"/images/2.jpg","avatar":"/images/1.jpg","font_size":"18px","font_family":"STHeiti","hover":{"shadow":false,"scale":false},"first_screen":{"enable":true,"header_transparent":false,"background_img":"/images/bg.svg","description":"尸体在说话","font_color":null,"hitokoto":false},"scroll":{"progress_bar":false,"percent":false}},"local_search":{"enable":false,"preload":false},"code_copy":{},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"default"},"side_tools":{},"pjax":{"enable":false},"lazyload":{"enable":false},"comment":{"enable":false,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.8"},"waline":{"server_url":null,"reaction":false,"version":2}},"post":{"author_label":{"enable":false,"auto":true,"custom_label_list":["Trainee","Engineer","Architect"]},"word_count":{"enable":false,"wordcount":false,"min2read":false},"img_align":"center","copyright_info":false},"version":"3.6.1"}
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"}
+    KEEP.language_code_block = {"copy":"Copy code","copied":"Copied","fold":"Fold code block","folded":"Folded"}
+    KEEP.language_copy_copyright = {"copy":"Copy copyright info","copied":"Copied","title":"Original article title","author":"Original article author","link":"Original article link"}
+  </script>
+<meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+</head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+
+    
+</div>
+
+
+<main class="page-container">
+
+    
+
+    <div class="page-main-content">
+
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="header-content">
+        <div class="left">
+            
+                <a class="logo-image" href="/">
+                    <img src="/images/2.jpg">
+                </a>
+            
+            <a class="logo-title" href="/">
+               freedom!
+            </a>
+        </div>
+
+        <div class="right">
+            <div class="pc">
+                <ul class="menu-list">
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/"
+                            >
+                                HOME
+                            </a>
+                        </li>
+                    
+                        <li class="menu-item">
+                            <a class=""
+                               href="/archives"
+                            >
+                                ARCHIVES
+                            </a>
+                        </li>
+                    
+                    
+                </ul>
+            </div>
+            <div class="mobile">
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list">
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/">HOME</a>
+                </li>
+            
+                <li class="drawer-menu-item flex-center">
+                    <a class=""
+                       href="/archives">ARCHIVES</a>
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle">
+
+            <div class="main-content">
+
+                
+                    <div class="fade-in-down-animation">
+    <div class="post-page-container">
+        <div class="article-content-container">
+
+            <div class="article-title">
+                <span class="title-hover-animation">SQL注入</span>
+            </div>
+
+            
+                <div class="article-header">
+                    <div class="avatar">
+                        <img src="/images/1.jpg">
+                    </div>
+                    <div class="info">
+                        <div class="author">
+                            <span class="name">braaain</span>
+                            
+                        </div>
+                        <div class="meta-info">
+                            
+<div class="article-meta-info">
+    <span class="article-date article-meta-item">
+        
+            <i class="fa-regular fa-calendar-plus"></i>&nbsp;
+        
+        <span class="pc">2023-08-11 10:44:06</span>
+        <span class="mobile">2023-08-11 10:44</span>
+    </span>
+    
+        <span class="article-update-date article-meta-item">
+        <i class="fas fa-file-pen"></i>&nbsp;
+        <span class="pc">2023-08-11 16:48:41</span>
+    </span>
+    
+    
+    
+
+    
+    
+    
+    
+</div>
+
+                        </div>
+                    </div>
+                </div>
+            
+
+            <div class="article-content keep-markdown-body">
+                
+
+                <h2 id="SQL注入"><a href="#SQL注入" class="headerlink" title="SQL注入"></a>SQL注入</h2><h3 id="一、概述"><a href="#一、概述" class="headerlink" title="一、概述"></a>一、概述</h3><h4 id="1-SQL"><a href="#1-SQL" class="headerlink" title="1.SQL"></a>1.SQL</h4><p>SQL一般是指结构化查询语言,是一种特殊目的的编程语言,是一种数据库查询和程序设计语言，用于存取数据以及查询、更新和管理关系数据库系统。</p>
+<h4 id="2-SQL注入原理"><a href="#2-SQL注入原理" class="headerlink" title="2.SQL注入原理"></a>2.SQL注入原理</h4><p>SQL注入就是当开发人员对用户输入数据的合法性没有判断或过滤不严时,攻击者通过拼接恶意SQL语句诱使解释器在未经适当授权的情况下执行意外命令或访问数据。</p>
+<p>简而言之:SQL注入的原理就是攻击者通过拼接恶意SQL语句，将其带入数据库进行查询，从而得到数据库一些敏感信息。<br><strong>SQL注入，就是通过把SQL命令插入到WEB表单提交或输入域名或页面请求的查询字符串，最终达到欺骗服务器执行恶意的SQL命令。</strong></p>
+<h4 id="3-注入条件"><a href="#3-注入条件" class="headerlink" title="3.注入条件"></a>3.注入条件</h4><p>SQL注入产生条件有三:<br>(1) 变量可控；<br>(2)变量未存在过滤；<br>(3) 我们构造的SQL语句可带入数据库中查询。</p>
+<p><strong>当我们了解SQL注入产生的条件时，还有一个非常重要的点需要特别注意,就是应该了解那个参数存在注入点。</strong></p>
+<h3 id="二、SQL注入类型"><a href="#二、SQL注入类型" class="headerlink" title="二、SQL注入类型"></a>二、SQL注入类型</h3><h4 id="1、按照注入点分类："><a href="#1、按照注入点分类：" class="headerlink" title="1、按照注入点分类："></a>1、按照注入点分类：</h4><p>（1）数字型注入：许多网页链接有类似的结构 <a class="link"   target="_blank" rel="noopener" href="http://xxx.com/users.php?id=1" >http://xxx.com/users.php?id=1<i class="fas fa-external-link-alt"></i></a> 基于此种形式的注入，注入点id为数字，一般被叫做数字型注入点，通过这种形式查询出后台数据库信息返回前台展示，可以构造类似以下的SQL语句进行爆破：</p>
+<blockquote>
+<p>select xxx from 表名 where id&#x3D;1 and 1&#x3D;1。</p>
+</blockquote>
+<p>（2）字符型注入：网页链接有类似的结构<a class="link"   target="_blank" rel="noopener" href="http://xxx.com/users.php?name=admin" >http://xxx.com/users.php?name=admin<i class="fas fa-external-link-alt"></i></a> 这种形式，注入点name为字符串，被称为字符型注入，可以用：</p>
+<blockquote>
+<p>select xxx from 表名 where name&#x3D;’admin’ and 1&#x3D;1。</p>
+</blockquote>
+<p>（3）搜索型注入：主要是指在数据搜索时没有过滤搜索参数，一般在链接地址中有 “keyword&#x3D;“关键字””，注入点提交的是SQL语句。</p>
+<blockquote>
+<p>select * from 表名 where 字段 like ‘%关键字%’ and ‘%1%’&#x3D;’%1%’。</p>
+</blockquote>
+<h4 id="2、按照执行效果来分类："><a href="#2、按照执行效果来分类：" class="headerlink" title="2、按照执行效果来分类："></a>2、按照执行效果来分类：</h4><p>（1）基于布尔的盲注：根据页面返回判断条件真假注入。</p>
+<p>（2）基于时间的盲注：即不能根据页面返回内容判断任何信息，用条件语句查看时间延迟语句是否执行（即页面返回时间是否增加）来判断。</p>
+<p>（3）基于报错的注入：即页面会返回错误信息，或者把注入的语句的结果直接返回在页面中。</p>
+<blockquote>
+<ul>
+<li>单引号</li>
+<li>双引号</li>
+<li>基于数字型注入</li>
+</ul>
+</blockquote>
+<p>（4）联合查询注入：可以使用union情况下注入。</p>
+<h3 id="三、SQL注入常见的绕过方法"><a href="#三、SQL注入常见的绕过方法" class="headerlink" title="三、SQL注入常见的绕过方法"></a>三、SQL注入常见的绕过方法</h3><p>（1）大小写关键词绕过(Union)</p>
+<p>（2）双写关键词绕过(ununionion)</p>
+<p>（3）编码绕过（base64、url）</p>
+<p>（4）内联注释绕过（&#x2F;*! Union *&#x2F;）</p>
+<h3 id="四、SQL注入-般步骤"><a href="#四、SQL注入-般步骤" class="headerlink" title="四、SQL注入-般步骤"></a>四、SQL注入-般步骤</h3><p>1.注入点判断</p>
+<p>2.注入点类型判断(有无回显)</p>
+<blockquote>
+<ul>
+<li>回显的类型判断:</li>
+</ul>
+</blockquote>
+<p>(1)数字型注入</p>
+<blockquote>
+<p>?id&#x3D;1 and 1&#x3D;1 – -<br>?id&#x3D;1 and 1&#x3D;2 – -(是否报错，报错则是)</p>
+</blockquote>
+<p>(2)字符型注入</p>
+<blockquote>
+<p>?id&#x3D;1’ and 1&#x3D;1 – -<br>?id&#x3D;1’ and 1&#x3D;2 – -(是否报错，报错即是)</p>
+</blockquote>
+<blockquote>
+<ul>
+<li>猜字段数:</li>
+</ul>
+</blockquote>
+<p>order by(二分法)</p>
+<blockquote>
+<p>?id&#x3D;2’ order by 6– -</p>
+</blockquote>
+<blockquote>
+<ul>
+<li>找回显：</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>?id&#x3D;2’ union select 1,2,3– -</p>
+</blockquote>
+<p><strong>相关函数：</strong></p>
+<p><img src="https://raw.githubusercontent.com/braaain/image1/main/img/image-20230811162026460.png" alt="image-20230811162026460"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">找数据库 database()</span><br><span class="line">在一行显示 group_concat()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><strong>常用系统函数：</strong></p>
+<blockquote>
+<table>
+<thead>
+<tr>
+<th align="center">基础信息函数</th>
+<th align="center">功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">system_user()</td>
+<td align="center">系统用户名</td>
+</tr>
+<tr>
+<td align="center">user()</td>
+<td align="center">用户名</td>
+</tr>
+<tr>
+<td align="center">current_user()</td>
+<td align="center">当前用户名</td>
+</tr>
+<tr>
+<td align="center">session_user()</td>
+<td align="center">连接数据库的用户名</td>
+</tr>
+<tr>
+<td align="center">database()</td>
+<td align="center">数据库名</td>
+</tr>
+<tr>
+<td align="center">version()</td>
+<td align="center">数据库版本</td>
+</tr>
+<tr>
+<td align="center">@@datadir</td>
+<td align="center">数据库路径</td>
+</tr>
+<tr>
+<td align="center">@@basedir</td>
+<td align="center">数据库安装路径</td>
+</tr>
+<tr>
+<td align="center">@@version_compile_os</td>
+<td align="center">操作系统</td>
+</tr>
+<tr>
+<td align="center">count()</td>
+<td align="center">返回执行结果数量</td>
+</tr>
+<tr>
+<td align="center">sleep()</td>
+<td align="center">延时</td>
+</tr>
+</tbody></table>
+</blockquote>
+<blockquote>
+<table>
+<thead>
+<tr>
+<th align="left">字符处理函数</th>
+<th align="center">功能</th>
+<th align="center">举例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">重点 concat()</td>
+<td align="center">没有分隔符地连接字符串</td>
+<td align="center">select concat(c1,c2) from xxx</td>
+</tr>
+<tr>
+<td align="left">重点 concat_ws()</td>
+<td align="center">指定分隔符地连接字符串</td>
+<td align="center">select concat_ws(‘:’,c1,c2) from xxx</td>
+</tr>
+<tr>
+<td align="left">重点 group_concat()</td>
+<td align="center">以逗号分隔某列&#x2F;组的数据</td>
+<td align="center">select group_concat(c1,c2) from xxx</td>
+</tr>
+<tr>
+<td align="left">load_file()</td>
+<td align="center">读取服务器文件</td>
+<td align="center">select loadfile(‘&#x2F;tmp&#x2F;a.txt’)</td>
+</tr>
+<tr>
+<td align="left">into outfile</td>
+<td align="center">写入文件到服务器</td>
+<td align="center">select ‘xxxx’ into outfile ‘&#x2F;tmp&#x2F;a.txt’</td>
+</tr>
+<tr>
+<td align="left">ascii()</td>
+<td align="center">字符串的ASCII代码值</td>
+<td align="center">select ascii(‘a’)</td>
+</tr>
+<tr>
+<td align="left">ord()</td>
+<td align="center">返回字符串第一个字符的ASCII值</td>
+<td align="center">select ord(‘abc’)</td>
+</tr>
+<tr>
+<td align="left">char()</td>
+<td align="center">返回ASCII值对应的字符串</td>
+<td align="center">select char(97)</td>
+</tr>
+<tr>
+<td align="left">mid()</td>
+<td align="center">返回一个字符串的一部分</td>
+<td align="center">select mid(‘abcde’,1,1)</td>
+</tr>
+<tr>
+<td align="left">substr()</td>
+<td align="center">返回一个字符串的一部分</td>
+<td align="center">select substr(‘abcde’,1,1)</td>
+</tr>
+<tr>
+<td align="left">length()</td>
+<td align="center">返回字符串的长度</td>
+<td align="center">select length(‘abc’)</td>
+</tr>
+<tr>
+<td align="left">left()</td>
+<td align="center">返回字符串最左面几个字符</td>
+<td align="center">select left(‘mysql’,2)</td>
+</tr>
+<tr>
+<td align="left">floor()</td>
+<td align="center">返回小于或等于X的最大整数</td>
+<td align="center">select floor(5.1)</td>
+</tr>
+<tr>
+<td align="left">rand()</td>
+<td align="center">返回0-1间的一个随机数</td>
+<td align="center">select rand()</td>
+</tr>
+<tr>
+<td align="left">if()</td>
+<td align="center">三目运算</td>
+<td align="center">select if(1&gt;2,’A’,’B’)</td>
+</tr>
+<tr>
+<td align="left">strcmp()</td>
+<td align="center">比较字符串ASCII大小</td>
+<td align="center">select strcmp(‘c’,’b’)</td>
+</tr>
+<tr>
+<td align="left">ifnull()</td>
+<td align="center">参数1为不null则返回参数1,否则参数2</td>
+<td align="center">select ifnull(null,2)</td>
+</tr>
+</tbody></table>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<ul>
+<li>找表名:</li>
+</ul>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">?id=2&#x27; and 1=2 union select 1,group_concat(table_name),@@basedir from information_schema.tables where table_schema=&quot;security&quot;-- -</span><br><span class="line"></span><br><span class="line">2,3为回显位；</span><br><span class="line">union前必须为错才能执行union语句</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li>找字段名：</li>
+</ul>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?id=2&#x27; and 1=2 union select 1,group_concat(column_name),@@basedir from information_schema.columns where table_name=&quot;emails&quot;-- -</span><br><span class="line"></span><br><span class="line">爆emails表的列名</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li>爆记录：</li>
+</ul>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?id=2&#x27; and 1=2 union select 1,group_concat(id,email_id),3 from emails-- -</span><br><span class="line"></span><br><span class="line">选择需要的列爆记录</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li>查看内容：</li>
+</ul>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">?id=2&#x27; and 1=2 union select 1,group_concat(id),group_concat(email_id) from emails-- -</span><br><span class="line"></span><br><span class="line">分开一一对应显示</span><br></pre></td></tr></table></figure>
+
+
+
+<p>3.信息猜解(库名到表名列名到具体数据)</p>
+<p>判断一个链接是否存在注入漏洞，可以通过对其传入的参数(但不仅仅只限于参数，还有cookie注入,HTTP头注入等)进行构造， 然后对服务器返回的内容进行判断来查看是否存在注入点。</p>
+<p>注入点又分为有回显和无回显，有回显就是当我们输入恶意SQL语句时，页面会给我们一个反馈的信息,例如我们语句输入错误，后台就会把错误信息返回显示在网页上,而无回显就恰恰相反,当我们无论输入的SQL是正确或者错误，页面都不会发生改变。</p>
+<h3 id="五、危害"><a href="#五、危害" class="headerlink" title="五、危害"></a>五、危害</h3><p>1.数据库信息泄露<br>数据库中存放的用户的隐私信息的泄露。</p>
+<p>2.网页篡改<br>通过操作数据库对特定网页进行篡改。</p>
+<p>3.网站被挂，传播恶意软件<br>修改数据库一些字段的值，嵌入链接，实行攻击。</p>
+<p>4.数据库被恶意操作<br>数据库服务器被攻击，数据库的系统管理员账户被篡改。</p>
+<p>5.服务器被远程控制<br>经由数据库服务器提供的操作系统支持，可以修改或者控制操作系统。</p>
+<p>6.破坏硬盘数据，系统瘫痪</p>
+<h3 id="六、注入应对方案"><a href="#六、注入应对方案" class="headerlink" title="六、注入应对方案"></a>六、注入应对方案</h3><p>1、参数过滤<br>参数过滤以各种厂商以及代码的WAF为主,比如替换空格,关键字,双写,大小写,特殊字符转义。<br>2、预编译<br>预编译主要依赖各种框架,比如Java的mybatis框架 和 PHP的 thinkphp框架。<br>3、限制权限和报错<br>限制权限和报错是指限制数据库的权限,以及控制数据库的报错信息,报错信息不要对外展示。</p>
+
+            </div>
+
+            
+
+            
+
+            
+                <div class="article-nav">
+                    
+                    
+                        <div class="article-next">
+                            <a class="next"
+                               rel="next"
+                               href="/2023/08/07/3/"
+                            >
+                            <span class="title flex-center">
+                                <span class="post-nav-title-item">SQL语句</span>
+                                <span class="post-nav-item">Next posts</span>
+                            </span>
+                                <span class="right arrow-icon flex-center">
+                              <i class="fas fa-chevron-right"></i>
+                            </span>
+                            </a>
+                        </div>
+                    
+                </div>
+            
+
+            
+        </div>
+
+        
+    </div>
+</div>
+
+
+                
+            </div>
+
+        </div>
+
+        <div class="page-main-content-bottom">
+            
+<footer class="footer">
+    <div class="info-container">
+        <div class="copyright-info info-item">
+            &copy;
+            
+                <span>2020</span> -
+            
+            2023
+            
+                &nbsp;<i class="fas fa-heart icon-animate"></i>
+                &nbsp;<a href="/">braaain</a>
+            
+        </div>
+        
+        <div class="theme-info info-item">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;|&nbsp;Theme&nbsp;<a class="theme-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep v3.6.1</a>
+        </div>
+        
+        
+    </div>
+</footer>
+
+        </div>
+    </div>
+
+    
+        <div class="post-tools">
+            <div class="post-tools-container">
+    <ul class="tools-list">
+        <!-- TOC aside toggle -->
+        
+
+        <!-- go comment -->
+        
+    </ul>
+</div>
+
+        </div>
+    
+
+    <div class="right-bottom-side-tools">
+        <div class="side-tools-container">
+    <ul class="side-tools-list">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <li class="tools-item tool-dark-light-toggle flex-center">
+            <i class="fas fa-moon"></i>
+        </li>
+
+        <!-- rss -->
+        
+
+        
+            <li class="tools-item tool-scroll-to-top flex-center">
+                <i class="fas fa-arrow-up"></i>
+            </li>
+        
+
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list">
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+        
+    </ul>
+</div>
+
+    </div>
+
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    
+
+</main>
+
+
+
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/dark-light-toggle.js"></script>
+
+
+
+
+
+
+
+    
+<script src="/js/code-block.js"></script>
+
+
+
+
+
+<div class="post-scripts">
+    
+        
+<script src="/js/post-helper.js"></script>
+
+        
+        
+    
+</div>
+
+
+
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        tex2jax: {
+            inlineMath: [ ["$","$"], ["\\(","\\)"] ],
+            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+            processEscapes: true
+        }
+    });
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax();
+        for (var i = 0; i < all.length; ++i)
+            all[i].SourceElement().parentNode.className += ' has-jax';
+    });
+</script>
+<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</body>
+</html>
